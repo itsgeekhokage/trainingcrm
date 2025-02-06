@@ -22,6 +22,13 @@ const corsOptions = {
 app.use(cors());
 app.use(express.json());
 
+app.options("*", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://trainingcrm-public.vercel.app");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.status(204).end(); // No content response for preflight
+});
 
 app.use("/agents", agentRoute);
 app.use("/headers", headerRoute);
