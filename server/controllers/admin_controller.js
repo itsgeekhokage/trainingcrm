@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import adminModal from "../models/admin_modal.js";
 
 export const getAdmin = async (req, res) => {

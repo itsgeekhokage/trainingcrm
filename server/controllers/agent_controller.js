@@ -1,5 +1,5 @@
 import agentModel from "../models/agent_modal.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 export const createAgent = async (req, res) => {
     const agents = req.body;
