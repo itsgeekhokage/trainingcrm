@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const MONGO_URI = 'mongodb://127.0.0.1:27017/trainingcrm';
+const MONGO_URI = process.env.MONGO_URI;
 
 const connectDB = async () => {
     try {
