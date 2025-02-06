@@ -12,7 +12,14 @@ const port = process.env.PORT || 3000;
 
 connectDB();
 
-app.use(cors());
+const corsOptions = {
+  origin: "https://trainingcrm-public.vercel.app/", // Allow only this origin
+  methods: "GET,POST,PUT,DELETE", // Allowed methods
+  allowedHeaders: "Content-Type,Authorization", // Allowed headers
+  credentials: true, // Allow cookies and authentication headers
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 
