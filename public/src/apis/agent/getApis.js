@@ -2,7 +2,12 @@ let host_link = import.meta.env.VITE_HOST_API
 
 export const getData = async ({endpoint}) => {
     try {
-        const reponse = await fetch(`${host_link}/${endpoint}`)
+        const reponse = await fetch(`${host_link}/${endpoint}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
         return reponse.json();
     } catch (error) {
         console.log(error)
