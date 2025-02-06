@@ -1,0 +1,5 @@
+header_code,header_name,training_type,video_link,pdf_link,project_code,video_completed,pdf_completed
+HD001,Introduction to Data Science,Online,https://example.com/videos/data-science-intro,https://example.com/pdfs/data-science-intro.pdf,DS-101,False,False
+HD002,Machine Learning Basics,Online,https://example.com/videos/ml-basics,https://example.com/pdfs/ml-basics.pdf,ML-202,True,False
+HD003,Deep Learning Fundamentals,Offline,https://example.com/videos/deep-learning,https://example.com/pdfs/deep-learning.pdf,DL-303,False,True
+HD004,Big Data Analytics,Online,https://example.com/videos/big-data,https://example.com/pdfs/big-data.pdf,BD-404,True,True

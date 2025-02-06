@@ -1,0 +1,6 @@
+user_name,mobile_number,password,project_code,training_type_online,training_type_offline,training_type_ac_pc,training_type_quality
+Alice,9876543210,pass123,test,1,0,1,0
+Bob,8765432109,qwerty,P002,0,1,1,0
+Charlie,7654321098,abcd1234,P003,1,0,0,1
+David,6543210987,securePass,P004,0,1,0,1
+Eve,5432109876,password1,P005,1,0,1,0

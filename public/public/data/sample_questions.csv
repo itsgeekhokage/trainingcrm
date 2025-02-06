@@ -1,0 +1,6 @@
+question,header_code,project_code,training_type,option_1,option_2,option_3,option_4,option_5,answer
+What is the capital of France?,HC101,PC202,Geography,Berlin,Madrid,Paris,Rome,Lisbon,Paris
+What is 2 + 2?,HC102,PC203,Mathematics,3,4,5,6,7,4
+Who wrote 'Hamlet'?,HC103,PC204,Literature,Shakespeare,Dickens,Austen,Hemingway,Orwell,Shakespeare
+What is the largest planet in the solar system?,HC104,PC205,Science,Earth,Mars,Jupiter,Saturn,Neptune,Jupiter
+Which element has the chemical symbol 'O'?,HC105,PC206,Chemistry,Oxygen,Hydrogen,Gold,Silver,Iron,Oxygen
