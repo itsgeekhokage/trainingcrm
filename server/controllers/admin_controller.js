@@ -16,8 +16,9 @@ export const getAdmin = async (req, res) => {
         else {
             // const match = await bcrypt.compare(password, admin.password);
             const match = password === admin.password;
+            admin.password = undefined;
             if (match) {
-                res.status(200).json({ message: "admin verified" });
+                res.status(200).json({data : admin, message: "admin verified" });
             } else {
                 res.status(401).json({ message: "Invalid password" });
             }

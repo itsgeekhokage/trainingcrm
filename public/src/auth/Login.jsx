@@ -28,10 +28,11 @@ const Login = () => {
         mobile_number: mobileNumber,
         password,
       });
+      console.log("Login Response:", response);
 
       if (isAdmin) {
         sessionStorage.setItem("trainingcrm", JSON.stringify(response.data));
-        navigate("/");
+        navigate("/admin/h");
       } else {
         sessionStorage.setItem("trainingcrm", JSON.stringify(response.data));
         navigate("/agent/h");

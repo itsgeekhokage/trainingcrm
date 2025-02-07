@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -24,12 +24,27 @@ const Navbar = () => {
   };
 
   const handleNavigation = (path) => {
-    navigate(`/upload/${path}`);
+    navigate(`/admin/upload/${path}`);
     setOpen(false);
   };
 
+  const handleLogOut = () => {
+    sessionStorage.removeItem("trainingcrm");
+    navigate("/");
+  }
+
+  useEffect(() => {
+    if (!sessionStorage.getItem("trainingcrm")) {
+      navigate("/");
+    }
+    const user = JSON.parse(sessionStorage.getItem("trainingcrm"));
+    if (!user) {
+      navigate("/");
+    }
+  }, []);
+
   return (
-    <>
+    <div style={{ position: "absolute", top: 0, left : 0, zIndex: 1000 }}>
       {/* Top AppBar */}
         <Toolbar>
           <IconButton
@@ -59,8 +74,16 @@ const Navbar = () => {
             <ListItemText primary="Upload Questions" />
           </ListItemButton>
         </List>
+        <List sx={{ width: 250, position: 'absolute', bottom: 0 }}>
+          <ListItemButton>
+            <ListItemText primary="Admin" />
+          </ListItemButton>
+          <ListItemButton onClick={() => handleLogOut()}>
+            <ListItemText primary="Logout" />
+          </ListItemButton>
+        </List>
       </Drawer>
-    </>
+    </div>
   );
 };
 
