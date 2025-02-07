@@ -35,9 +35,7 @@ app.use("/questions", questionRoute);
 app.use("/tests", testRoute);
 
 // Default Route
-app.get("/", (req, res) => {
-    res.send("🚀 TrainingCRM Backend is running...");
-});
+
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {

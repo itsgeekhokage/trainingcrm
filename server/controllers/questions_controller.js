@@ -6,7 +6,7 @@ export const createQuestions = async (req, res) => {
     try {
         const savedQuestions = await Promise.all(
             questions.map(async (question) => {
-                const { question_text, header_code, project_code, training_type, option_1, option_2, option_3, option_4, option_5, answer } = question;
+                const { question_text, header_code, project_code, training_type, option_1, option_2, option_3, option_4, option_5, option_6, option_7, option_8, option_9, option_10, answer } = question;
 
                 const existingQuestion = await questionsModel.findOne({ question });
 
@@ -27,6 +27,7 @@ export const createQuestions = async (req, res) => {
                         option_3,
                         option_4,
                         option_5,
+                        option_6, option_7, option_8, option_9, option_10,
                         answer,
                     });
 
@@ -48,7 +49,12 @@ export const getQuestions = async (req, res) => {
         const questions = await questionsModel.find({ header_code, project_code, training_type })
             .select("-__v -_id -createdAt -updatedAt");
 
-        res.status(200).json({data :questions, message : ""});
+        if (questions.length > 10) {
+            questions.sort(() => Math.random() - 0.5);
+            questions.splice(10);
+        }
+
+        res.status(200).json({ data: questions, message: "" });
     } catch (error) {
         console.error("Error getting questions:", error);
         res.status(500).json({ message: "Internal Server Error", error: error.message });
@@ -59,7 +65,7 @@ export const getAllQuestions = async (req, res) => {
     try {
         const questions = await questionsModel.find().select("-__v -_id -createdAt -updatedAt");
 
-        res.status(200).json({data :questions, message : ""});
+        res.status(200).json({ data: questions, message: "" });
     } catch (error) {
         console.error("Error getting questions:", error);
         res.status(500).json({ message: "Internal Server Error", error: error.message });

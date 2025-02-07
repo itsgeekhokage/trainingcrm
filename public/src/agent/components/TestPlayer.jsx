@@ -12,6 +12,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { getDataByCodes } from "../../apis/agent/getApis";
+import { testPostApi } from "../../apis/agent/testApi";
 
 const TestPlayer = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -21,6 +22,7 @@ const TestPlayer = () => {
   const [verdict, setVerdict] = useState("");
   const location = useLocation();
   const [noData, setNoData] = useState(false);
+  const [user, setUser] = useState(null);
   const { project_code, header_code, training_type } =
     location?.state?.link || {};
 
@@ -36,6 +38,11 @@ const TestPlayer = () => {
         setSelectedOptions(new Array(ques.length).fill(null));
       }
     });
+    const user = JSON.parse(sessionStorage.getItem("trainingcrm"));
+    setUser(user);
+    if (!user) {
+      window.location.href = "/";
+    }
   }, [location.state]);
 
   const handleAnswer = (selectedOption) => {
@@ -62,9 +69,20 @@ const TestPlayer = () => {
         selectedOptions[idx] === q.answer ? count + 1 : count,
       0
     );
-    const result = correctCount === questions.length ? "Passed" : "Failed";
+    const result = correctCount === questions.length ? true : false;
     setVerdict(result);
     setShowResult(true);
+
+    const data = {
+      mobile_number: user?.mobile_number,
+      project_code,
+      header_code,
+      training_type,
+      result,
+    };
+    testPostApi("tests", data).then((res) => {
+      console.log(res);
+    });
   };
 
   return (
@@ -95,8 +113,19 @@ const TestPlayer = () => {
               {questions[currentQuestion].question_text}
             </Typography>
             <RadioGroup>
-              {["option_1", "option_2", "option_3", "option_4", "option_5"].map(
-                (optionKey, index) => (
+              {[
+                "option_1",
+                "option_2",
+                "option_3",
+                "option_4",
+                "option_5",
+                "option_6",
+                "option_7",
+                "option_8",
+                "option_9",
+                "option_10",
+              ].map((optionKey, index) =>
+                questions[currentQuestion][optionKey] ? (
                   <FormControlLabel
                     key={index}
                     control={
@@ -112,9 +141,10 @@ const TestPlayer = () => {
                     }
                     label={questions[currentQuestion][optionKey]}
                   />
-                )
+                ) : null
               )}
             </RadioGroup>
+
             <Box
               display="flex"
               justifyContent="space-between"
@@ -149,7 +179,7 @@ const TestPlayer = () => {
             fontWeight="bold">
             Test Results
           </Typography>
-          <Typography>Result: {verdict}</Typography>
+          <Typography>Result: {verdict ? "Passes"  : "Failed"}</Typography>
         </Paper>
       )}
     </Box>

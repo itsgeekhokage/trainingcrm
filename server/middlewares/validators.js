@@ -1,5 +1,7 @@
+import projectsModel from "../models/project_modal.js";
+
 /** @format */
-export const validateAgentsData = (req, res, next) => {
+export const validateAgentsData = async (req, res, next) => {
   const agents = req.body;
 
   if (!Array.isArray(agents) || agents.length === 0) {
@@ -40,6 +42,13 @@ export const validateAgentsData = (req, res, next) => {
       return res.status(400).json({
         message: `Agent ${index + 1
           }: Project Code can only contain alphanumeric characters and hyphens`,
+      });
+    }
+
+    const existingProject = await projectsModel.findOne({ project_code });
+    if (!existingProject) {
+      return res.status(404).json({
+        message: `Agent ${index + 1}: Project does not exist`,
       });
     }
   }
@@ -86,8 +95,6 @@ export const validateHeaderData = (req, res, next) => {
       !header_code ||
       !header_name ||
       !training_type ||
-      !video_link ||
-      !pdf_link ||
       !project_code
     ) {
       return res.status(400).json({ message: "All fields are required" });
@@ -126,7 +133,7 @@ export const validateQuestions = (req, res, next) => {
 }
 
 
-export const validateQuestionsData = (req, res, next) => {
+export const validateQuestionsData = async (req, res, next) => {
   const data = req.body;
 
   if (!Array.isArray(data) || data.length === 0) {
@@ -151,6 +158,13 @@ export const validateQuestionsData = (req, res, next) => {
     if (!alphanumericHyphenRegex.test(project_code)) {
       return res.status(400).json({
         message: `Item ${index + 1}: Project Code can only contain alphanumeric characters and hyphens`,
+      });
+    }
+
+    const existingProject = await projectsModel.findOne({ project_code });
+    if(!existingProject) {
+      return res.status(404).json({
+        message: `Item ${index + 1}: Project does not exist`,
       });
     }
 
