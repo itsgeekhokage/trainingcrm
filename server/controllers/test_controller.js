@@ -4,11 +4,13 @@ import testModel from "../models/test_modal.js";
 
 export const createTest = async (req, res) => {
     const test = req.body;
-    const newTest = new testModel(test);
+    console.log(test)
     try {
+        const newTest = new testModel(test);
         await newTest.save();
         res.status(201).json({data : newTest, message : "results saved..."});
     } catch (error) {
+        console.log(error)
         res.status(409).json({ message: error.message });
     }
 }

@@ -29,7 +29,7 @@ const Profile = () => {
 
   const handleLogout = () => {
     sessionStorage.removeItem("trainingcrm");
-    navigate("/login");
+    navigate("/");
   };
 
   return (

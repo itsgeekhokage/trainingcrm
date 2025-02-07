@@ -21,8 +21,8 @@ const AgentUpload = () => {
 
   useEffect(()=>{
     var pth = location.pathname?.split('/')
-    if(pth.length > 2){
-      var path = pth[2]
+    if(pth.length > 3){
+      var path = pth[3]
       if(path === 'agents'){
         setPage('agents')
         set_sample_file(agents_sample)
@@ -71,13 +71,13 @@ const AgentUpload = () => {
     <Paper>
       <Navbar />
         <h1>Dashboard :- {page} </h1>
-        <Link to = {`/${page}`}> view all {page} </Link>
+        <Link to = {`/admin/${page}`}> view all {page} </Link>
       <br />
         <Button onClick={handleDownloadSample}> download sample file</Button>
       <Box
         padding={"10px"}
         display={"flex"}
-         width={"90vw"} 
+         width={"90vw"}
         flexDirection={"column"}
         alignItems={"center"}>
         <Box padding={"20px"}>

@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  react-app:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hpandher613/training-crm-front
+    ports:
+      - "5173:5173"
+    env_file:
+      - .env

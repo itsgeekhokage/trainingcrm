@@ -1,12 +1,14 @@
-let host_link = import.meta.env.VITE_HOST_API;
 import { toast } from "react-toastify";
 
-export const getApi = async (endpoint) => {
+let host_link = import.meta.env.VITE_HOST_API;
+
+export const testPostApi = async (endpoint, data) => {
     const response = await fetch(`${host_link}/${endpoint}`, {
-        method: 'GET',
+        method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
-        }
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
     });
     if (!response.ok) {
         const message = await response.json().message;

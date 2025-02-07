@@ -21,7 +21,7 @@ const AllTable = ({ data, page}) => {
     ...Object.keys(data[0]).map((key) => ({
       field: key,
       headerName: key,
-      flex: 1,
+      flex: 0.81,
     })),
     {
       field: "actions",
@@ -32,7 +32,7 @@ const AllTable = ({ data, page}) => {
           variant="outlined"
           color="secondary"
           onClick={() => handleInActivate(params.row.header_code)}>
-          toggle activation
+          active/inactive
         </Button>
       ),
     },
@@ -77,8 +77,8 @@ const DataTable = () => {
     useEffect(() => {
         var pth = location.pathname?.split("/");
         let endpoint = "";
-        if (pth.length > 1) {
-            var path = pth[1];
+        if (pth.length > 2) {
+            var path = pth[2];
             if (path === "agents") {
                 setPage("agents");
                 endpoint = "agents";
@@ -93,7 +93,7 @@ const DataTable = () => {
 
         const fetchData = async () => {
             getApi(endpoint).then((data) => {
-              console.log(data.data)
+              // console.log(data.data)
                 setData(data.data);
             });
         };

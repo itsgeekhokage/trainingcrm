@@ -4,6 +4,7 @@ import { Box, Paper, Typography, Link, Switch } from "@mui/material";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { updateHeaderVideoConfirmation, updatePdfConfirmation } from "../../apis/agent/headerApis";
+import { toast } from "react-toastify";
 
 const HeaderPaper = ({ data, loadHeadersData }) => {
   console.log(data)
@@ -13,12 +14,16 @@ const HeaderPaper = ({ data, loadHeadersData }) => {
       console.log(res)
       loadHeadersData();
     })
+    toast.info("your credentials are being updated...")
+    toast.info("refresh the page to see the changes...")
   }
 
   const handlePdfChange = () => {
     updatePdfConfirmation({header_code: data.header_code}).then(res => {
       loadHeadersData();
     })
+    toast.info("your credentials are being updated...");
+    toast.info("refresh the page to see the changes...");
   }
 
   return (
@@ -64,7 +69,7 @@ const HeaderPaper = ({ data, loadHeadersData }) => {
           }}>
           Video
         </Link>
-        <Switch color="warning" checked={data.video_completed} onChange={() => handleVideoChange()}/>
+        {/* <Switch color="warning" checked={data.video_completed} onChange={() => handleVideoChange()}/> */}
 
         <Link
           component={RouterLink}
@@ -85,11 +90,11 @@ const HeaderPaper = ({ data, loadHeadersData }) => {
           }}>
           PDF
         </Link>
-        <Switch color="warning" checked={data.pdf_completed} onChange={() => handlePdfChange()}/>
+        {/* <Switch color="warning" checked={data.pdf_completed} onChange={() => handlePdfChange()}/> */}
 
         {
-          (data?.video_completed && data?.pdf_completed)
-          ?
+          // (data?.video_completed && data?.pdf_completed)
+          // ?
           (<Link
           component={RouterLink}
           to="/agent/test"
@@ -109,9 +114,8 @@ const HeaderPaper = ({ data, loadHeadersData }) => {
           }}>
           Test
         </Link>)
-          :
-          <p>complete video and audio first</p>
-
+          // :
+          // <p>complete video and audio first</p>
         }
       </Box>
     </Paper>

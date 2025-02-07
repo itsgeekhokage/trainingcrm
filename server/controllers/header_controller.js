@@ -1,4 +1,5 @@
 import headersModel from "../models/headers_modal.js";
+import projectsModel from "../models/project_modal.js";
 
 export const createHeader = async (req, res) => {
     const headers = req.body;
@@ -8,6 +9,10 @@ export const createHeader = async (req, res) => {
             headers.map(async (header) => {
                 const { header_code, header_name, training_type, video_link, pdf_link, project_code } = header;
 
+                const existingProject = await projectsModel.findOne({ project_code });
+                if(!existingProject) {
+                    await projectsModel.create({ project_code });
+                }
                 const existingHeader = await headersModel.findOne({ header_code });
 
                 if (existingHeader) {

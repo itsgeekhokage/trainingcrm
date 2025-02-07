@@ -21,8 +21,8 @@ const corsOptions = {
     credentials: true, // Allow cookies & authentication headers
 };
 
-app.use(cors(corsOptions)); // Apply CORS Middleware
-app.options("*", cors(corsOptions)); // Handle Preflight Requests
+app.use(cors()); // Apply CORS Middleware
+app.options("*", cors()); // Handle Preflight Requests
 
 // Middleware
 app.use(express.json());
@@ -35,9 +35,7 @@ app.use("/questions", questionRoute);
 app.use("/tests", testRoute);
 
 // Default Route
-app.get("/", (req, res) => {
-    res.send("🚀 TrainingCRM Backend is running...");
-});
+
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {

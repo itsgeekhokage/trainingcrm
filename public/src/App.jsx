@@ -16,46 +16,53 @@ import VideoPlayer from "./agent/components/VideoPlayer";
 import PdfPlayer from "./agent/components/PdfPlayer";
 import TestPlayer from "./agent/components/TestPlayer";
 import { Box } from "@mui/material";
+import AdminHome from "./admin/AdminHome";
 
 function App() {
   return (
-    <Box height={"100vh"} width={"100vw"} display="flex" justifyContent="center" alignItems="center">
+    <Box
+      height={"100vh"}
+      width={"100vw"}
+      display="flex"
+      justifyContent="center"
+      alignItems="center">
       <BrowserRouter>
         <Routes>
           <Route
+            path="/admin"
+            element={<AdminDashboard />}>
+            <Route
+              path="h"
+              element={<AdminHome />}
+            />
+            <Route
+              path="agents"
+              element={<DataTable />}
+            />
+            <Route
+              path="questions"
+              element={<DataTable />}
+            />
+            <Route
+              path="headers"
+              element={<DataTable />}
+            />
+            <Route
+              path="upload/agents"
+              element={<AgentUpload />}
+            />
+            <Route
+              path="upload/questions"
+              element={<AgentUpload />}
+            />
+            <Route
+              path="upload/headers"
+              element={<AgentUpload />}
+            />
+
+          </Route>
+          <Route
             path="/"
-            element={<AdminDashboard />}
-          />
-          <Route
-            path="/agents"
-            element={<DataTable />}
-          />
-          <Route
-            path="/questions"
-            element={<DataTable />}
-          />
-          <Route
-            path="/headers"
-            element={<DataTable />}
-          />
-          <Route
-            path="/upload/agents"
-            element={<AgentUpload />}
-          />
-          <Route
-            path="/upload/questions"
-            element={<AgentUpload />}
-          />
-          <Route
-            path="/upload/headers"
-            element={<AgentUpload />}
-          />
-          <Route
-            path="/"
-            element={<AgentUpload />}
-          />
-          <Route
-            path="/login"
             element={<Login />}
           />
 
