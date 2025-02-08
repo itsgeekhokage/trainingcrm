@@ -49,9 +49,9 @@ export const getQuestions = async (req, res) => {
         const questions = await questionsModel.find({ header_code, project_code, training_type })
             .select("-__v -_id -createdAt -updatedAt");
 
-        if (questions.length > 10) {
+        if (questions.length > 30) {
             questions.sort(() => Math.random() - 0.5);
-            questions.splice(10);
+            questions.splice(30);
         }
 
         res.status(200).json({ data: questions, message: "" });
