@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import mongooseSequence from 'mongoose-sequence';
 
 const questionsSchema = new mongoose.Schema({
-    question_code: { type: Number, unique: true },
+    question_code: { type: Number, unique: true, project_code: true },
     question_text: { type: String, required: true },
     header_code: { type: String, required: true, match: [/^[a-zA-Z0-9-]+$/, 'Project Code can only contain alphanumeric characters and hyphens'] },
     project_code: { type: String, required: true, match: [/^[a-zA-Z0-9-]+$/, 'Project Code can only contain alphanumeric characters and hyphens'] },

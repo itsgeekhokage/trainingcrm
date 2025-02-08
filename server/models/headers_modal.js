@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const headersSchema = new mongoose.Schema({
-    header_code : { type : String, required : true },
+    header_code : { type : String, required : true, unique : true },
     header_name : { type : String, required : true },
     training_type: { type: String, required: true, enum: ["online", "offline", "ac_pc", "quality"] },
     video_link : { type : String, default : "" },

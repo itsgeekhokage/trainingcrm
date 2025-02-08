@@ -45,6 +45,11 @@ export const validateAgentsData = async (req, res, next) => {
       });
     }
 
+    const existingAgent = await agentsModel.findOne({ mobile_number });
+    if (existingAgent) {
+      return res.status(409).json({message : `Agent ${mobile_number}: Agent already exists`});
+    }
+
     const existingProject = await projectsModel.findOne({ project_code });
     if (!existingProject) {
       return res.status(404).json({
