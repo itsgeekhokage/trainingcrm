@@ -1,6 +1,14 @@
-question,header_code,project_code,training_type,option_1,option_2,option_3,option_4,option_5,answer
-What is the capital of France?,HC101,PC202,Geography,Berlin,Madrid,Paris,Rome,Lisbon,Paris
-What is 2 + 2?,HC102,PC203,Mathematics,3,4,5,6,7,4
-Who wrote 'Hamlet'?,HC103,PC204,Literature,Shakespeare,Dickens,Austen,Hemingway,Orwell,Shakespeare
-What is the largest planet in the solar system?,HC104,PC205,Science,Earth,Mars,Jupiter,Saturn,Neptune,Jupiter
-Which element has the chemical symbol 'O'?,HC105,PC206,Chemistry,Oxygen,Hydrogen,Gold,Silver,Iron,Oxygen
+question_text,header_code,project_code,training_type,option_1,option_2,option_3,option_4,option_5,option_6,option_7,option_8,option_9,option_10,answer
+India 360 कंपनी किस क्षेत्र में काम करती है?,HD002,SS-Practice,online,स्वास्थ्य,मार्केट रिसर्च,खेल,शिक्षा,,,,,,,1
+India 360 कंपनी ने किसे अधिक Survey किया है?,HD002,SS-Practice,online,10 लाख,30 लाख,50 लाख,1 लाख,,,,,,,2
+Survey शुरू करने का सही समय क्या है?,HD002,SS-Practice,online,सुबह 6 बजे,सुबह 8 बजे,दोपहर 12 बजे,रात 9 बजे,,,,,,,0
+Survey शुरू करने का सही समय क्या है?,HD002,SS-Practice,online,बातचीत करें,शंका स्पष्ट करें,कोई भी सवाल न पूछें,उसे नजरअंदाज करें,कोई फर्क नहीं पड़ेगा,,,,,,3
+Survey के दौरान टीम लीडर से क्या करना चाहिए?,HD002,SS-Practice,online,Survey का परिणाम प्रभावित होगा,समय बच सकता है,जानकारी में वृद्धि होगी,शॉर्टकट अपनाना,,,,,,,1
+Survey के दौरान किसी सवाल को छोड़ने से क्या होगा?,HD002,SS-Practice,online,शॉर्टकट अपनाना,निष्पक्ष रहना,जल्दी काम करना,अपनी राय देना,,,,,,,2
+India 360 कंपनी किस क्षेत्र में काम करती है?,HD002,SS-Practice,online,स्वास्थ्य,मार्केट रिसर्च,खेल,शिक्षा,,,,,,,0
+India 360 कंपनी ने किसे अधिक Survey किया है?,HD002,SS-Practice,online,10 लाख,30 लाख,50 लाख,1 लाख,,,,,,,3
+Survey शुरू करने का सही समय क्या है?,HD002,SS-Practice,online,सुबह 6 बजे,सुबह 8 बजे,दोपहर 12 बजे,रात 9 बजे,,,,,,,1
+Survey के दौरान टीम लीडर से क्या करना चाहिए?,HD002,SS-Practice,online,बातचीत करें,शंका स्पष्ट करें,कोई भी सवाल न पूछें,उसे नजरअंदाज करें,,,,,,,2
+Survey के दौरान किसी सवाल को छोड़ने से क्या होगा?,HD002,SS-Practice,online,कोई फर्क नहीं पड़ेगा,Survey का परिणाम प्रभावित होगा,समय बच सकता है,जानकारी में वृद्धि होगी,,,,,,,0
+आपको Survey के दौरान किस बात का ध्यान रखना चाहिए?,HD002,SS-Practice,online,शॉर्टकट अपनाना,निष्पक्ष रहना,जल्दी काम करना,अपनी राय देना,,,,,,,3
+"सर्वे के दौरान अगर कोई सवाल समझ में नहीं आता, तो क्या करना चाहिए?",HD002,SS-Practice,online,बिना पूछे छोड़ देना,बिना उत्तर दिए छोड़ देना,शांति से समझाना,गुस्से में आना,,,,,,,1
