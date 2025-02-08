@@ -20,7 +20,7 @@ const HeadersList = ({project_code, training_type}) => {
   }, [project_code, training_type])
 
   return (
-    <Box padding={3} display={"flex"} flexDirection={"column"} alignItems={"center"} gap={2}>
+    <Box padding={3} display={"flex"} flexDirection={"column"} alignItems={"center"} gap={2} height={"50vh"} overflow={"auto"}>
         {
             list.map(item => <HeaderPaper data = {item} loadHeadersData = {loadHeadersData} />)
         }
