@@ -8,7 +8,7 @@ export const createQuestions = async (req, res) => {
             questions.map(async (question) => {
                 const { question_text, header_code, project_code, training_type, option_1, option_2, option_3, option_4, option_5, option_6, option_7, option_8, option_9, option_10, answer } = question;
 
-                const existingQuestion = await questionsModel.findOne({ question });
+                const existingQuestion = await questionsModel.findOne({ question_text });
 
                 if (existingQuestion) {
                     await questionsModel.updateOne(
