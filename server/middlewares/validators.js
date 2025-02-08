@@ -1,61 +1,66 @@
 import projectsModel from "../models/project_modal.js";
+import agentModel from "../models/agent_modal.js";
 
 /** @format */
 export const validateAgentsData = async (req, res, next) => {
   const agents = req.body;
+  try {
 
-  if (!Array.isArray(agents) || agents.length === 0) {
-    return res
-      .status(400)
-      .json({ message: "Agents data should be a non-empty array" });
-  }
+    if (!Array.isArray(agents) || agents.length === 0) {
+      return res
+        .status(400)
+        .json({ message: "Agents data should be a non-empty array" });
+    }
 
-  for (const [index, agent] of agents.entries()) {
-    const { user_name, mobile_number, password, project_code, training_type_ac_pc, training_type_offline, training_type_online, training_type_quality } =
-      agent;
+    for (const [index, agent] of agents.entries()) {
+      const { user_name, mobile_number, password, project_code, training_type_ac_pc, training_type_offline, training_type_online, training_type_quality } =
+        agent;
 
-    const requiredFields = {
-      user_name,
-      mobile_number,
-      password,
-      project_code,
-      training_type_online,
-      training_type_offline,
-      training_type_ac_pc,
-      training_type_quality
-    };
-    for (const [key, value] of Object.entries(requiredFields)) {
-      if (!value) {
+      const requiredFields = {
+        user_name,
+        mobile_number,
+        password,
+        project_code,
+        training_type_online,
+        training_type_offline,
+        training_type_ac_pc,
+        training_type_quality
+      };
+      for (const [key, value] of Object.entries(requiredFields)) {
+        if (!value) {
+          return res.status(400).json({
+            message: `Agent ${index + 1}: ${key.replace("_", " ")} is required`,
+          });
+        }
+      }
+
+      if (!/^\d{10}$/.test(mobile_number)) {
         return res.status(400).json({
-          message: `Agent ${index + 1}: ${key.replace("_", " ")} is required`,
+          message: `Agent ${index + 1}: Mobile number must be exactly 10 digits`,
         });
       }
-    }
 
-    if (!/^\d{10}$/.test(mobile_number)) {
-      return res.status(400).json({
-        message: `Agent ${index + 1}: Mobile number must be exactly 10 digits`,
-      });
-    }
+      if (!/^[a-zA-Z0-9-]+$/.test(project_code)) {
+        return res.status(400).json({
+          message: `Agent ${index + 1
+            }: Project Code can only contain alphanumeric characters and hyphens`,
+        });
+      }
 
-    if (!/^[a-zA-Z0-9-]+$/.test(project_code)) {
-      return res.status(400).json({
-        message: `Agent ${index + 1
-          }: Project Code can only contain alphanumeric characters and hyphens`,
-      });
-    }
+      const existingAgent = await agentModel.findOne({ mobile_number });
+      if (existingAgent) {
+        return res.status(409).json({ message: `Agent ${mobile_number}: Agent already exists` });
+      }
 
-    const existingAgent = await agentsModel.findOne({ mobile_number });
-    if (existingAgent) {
-      return res.status(409).json({message : `Agent ${mobile_number}: Agent already exists`});
+      // const existingProject = await projectsModel.findOne({ project_code });
+      // if (!existingProject) {
+      //   return res.status(404).json({
+      //     message: `Agent ${index + 1}: Project does not exist`,
+      //   });
+      // }
     }
-
-    const existingProject = await projectsModel.findOne({ project_code });
-    if (!existingProject) {
-      return res.status(404).json({
-        message: `Agent ${index + 1}: Project does not exist`,
-      });
-    }
+  } catch (error) {
+    console.log(error)
   }
 
   next();
@@ -167,7 +172,7 @@ export const validateQuestionsData = async (req, res, next) => {
     }
 
     const existingProject = await projectsModel.findOne({ project_code });
-    if(!existingProject) {
+    if (!existingProject) {
       return res.status(404).json({
         message: `Item ${index + 1}: Project does not exist`,
       });
