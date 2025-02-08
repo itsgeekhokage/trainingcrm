@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import projectsModel from "../models/project_modal.js";
 
 export const createAgent = async (req, res) => {
+    
     const agents = req.body;
 
     try {
