@@ -69,7 +69,7 @@ const TestPlayer = () => {
         selectedOptions[idx] === q.answer ? count + 1 : count,
       0
     );
-    const result = correctCount === questions.length ? true : false;
+    const result = correctCount >= (questions.length/2) ? true : false;
     setVerdict(result);
     setShowResult(true);
 
@@ -139,7 +139,11 @@ const TestPlayer = () => {
                         }
                       />
                     }
-                    label={questions[currentQuestion][optionKey]}
+                    label={
+                      <Typography sx={{ textAlign: "left" }}>
+                        {questions[currentQuestion][optionKey]}
+                      </Typography>
+                    }
                   />
                 ) : null
               )}
@@ -179,7 +183,7 @@ const TestPlayer = () => {
             fontWeight="bold">
             Test Results
           </Typography>
-          <Typography>Result: {verdict ? "Passes"  : "Failed"}</Typography>
+          <Typography>Result: {verdict ? "Passes" : "Failed"}</Typography>
         </Paper>
       )}
     </Box>
