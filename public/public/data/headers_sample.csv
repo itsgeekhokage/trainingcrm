@@ -1,5 +1,17 @@
-header_code,header_name,training_type,video_link,pdf_link,project_code,video_completed,pdf_completed
-HD001,Introduction to Data Science,Online,https://example.com/videos/data-science-intro,https://example.com/pdfs/data-science-intro.pdf,DS-101,False,False
-HD002,Machine Learning Basics,Online,https://example.com/videos/ml-basics,https://example.com/pdfs/ml-basics.pdf,ML-202,True,False
-HD003,Deep Learning Fundamentals,Offline,https://example.com/videos/deep-learning,https://example.com/pdfs/deep-learning.pdf,DL-303,False,True
-HD004,Big Data Analytics,Online,https://example.com/videos/big-data,https://example.com/pdfs/big-data.pdf,BD-404,True,True
+header_code,header_name,training_type,video_link,pdf_link,project_code
+HD002,INDIA360 Company and Survey,online,https://survey-audios.s3.ap-south-1.amazonaws.com/training/18_Cleaning.mp4,,SS-Practice
+HD003,Quality Training,online,https://drive.google.com/file/d/1U8mSTWSyhbMuwSgc86RvaxWEyjmOVkye/view?usp=sharing,,SS-Practice
+HD004,Questionnaire,online,https://drive.google.com/file/d/1OFyEH3XNayFBHNAvNj2SOn7dET1ixxVn/view?usp=sharing,,SS-Practice
+HD005,Fraud Type and Zero Fraud Tolerance Policy,online,https://drive.google.com/file/d/1bXEax4pImnNvpkstkb0Bqr6hu0Co7fCF/view?usp=sharing,,SS-Practice
+HD006,INDIA360 Company and Survey,offline,https://survey-audios.s3.ap-south-1.amazonaws.com/training/18_Cleaning.mp4,,SS-Practice
+HD007,Quality Training,offline,https://drive.google.com/file/d/1U8mSTWSyhbMuwSgc86RvaxWEyjmOVkye/view?usp=sharing,,DummyProject-CCU
+HD008,Questionnaire,offline,https://drive.google.com/file/d/1OFyEH3XNayFBHNAvNj2SOn7dET1ixxVn/view?usp=sharing,,SS-Practice
+HD009,Fraud Type and Zero Fraud Tolerance Policy,offline,https://drive.google.com/file/d/1bXEax4pImnNvpkstkb0Bqr6hu0Co7fCF/view?usp=sharing,,DummyProject-CCU
+HD010,INDIA360 Company and Survey,quality,https://survey-audios.s3.ap-south-1.amazonaws.com/training/18_Cleaning.mp4,,SS-Practice
+HD011,Quality Training,quality,https://drive.google.com/file/d/1U8mSTWSyhbMuwSgc86RvaxWEyjmOVkye/view?usp=sharing,,DummyProject-CCU
+HD012,Questionnaire,quality,https://drive.google.com/file/d/1OFyEH3XNayFBHNAvNj2SOn7dET1ixxVn/view?usp=sharing,,SS-Practice
+HD013,Fraud Type and Zero Fraud Tolerance Policy,quality,https://drive.google.com/file/d/1bXEax4pImnNvpkstkb0Bqr6hu0Co7fCF/view?usp=sharing,,DummyProject-CCU
+HD014,INDIA360 Company and Survey,ac_pc,https://survey-audios.s3.ap-south-1.amazonaws.com/training/18_Cleaning.mp4,,SS-Practice
+HD015,Quality Training,ac_pc,https://drive.google.com/file/d/1U8mSTWSyhbMuwSgc86RvaxWEyjmOVkye/view?usp=sharing,,DummyProject-CCU
+HD016,Questionnaire,ac_pc,https://drive.google.com/file/d/1OFyEH3XNayFBHNAvNj2SOn7dET1ixxVn/view?usp=sharing,,SS-Practice
+HD017,Fraud Type and Zero Fraud Tolerance Policy,ac_pc,https://drive.google.com/file/d/1bXEax4pImnNvpkstkb0Bqr6hu0Co7fCF/view?usp=sharing,,DummyProject-CCU
