@@ -49,6 +49,7 @@ const TestPlayer = () => {
     const updatedSelections = [...selectedOptions];
     updatedSelections[currentQuestion] = selectedOption;
     setSelectedOptions(updatedSelections);
+    console.log(selectedOptions)
   };
 
   const handleNext = () => {
@@ -64,12 +65,21 @@ const TestPlayer = () => {
   };
 
   const handleFinish = () => {
-    const correctCount = questions.reduce(
+    console.log(selectedOptions);
+    console.log(questions);
+    let correctCount = 0
+    const tes = questions.map(
       (count, q, idx) =>
-        selectedOptions[idx] === q.answer ? count + 1 : count,
-      0
+        correctCount += (selectedOptions[idx] === q.answer)
     );
+    // const correctCount = questions.reduce(
+    //   (count, q, idx) =>
+    //     selectedOptions[idx] === q.answer ? count + 1 : count,
+    //   0
+    // );
+    console.log(correctCount);
     const result = correctCount >= (questions.length/2) ? true : false;
+    console.log(result);
     setVerdict(result);
     setShowResult(true);
 
@@ -132,10 +142,10 @@ const TestPlayer = () => {
                       <Radio
                         checked={
                           selectedOptions[currentQuestion] ===
-                          questions[currentQuestion][optionKey]
+                          index
                         }
                         onChange={() =>
-                          handleAnswer(questions[currentQuestion][optionKey])
+                          handleAnswer(index)
                         }
                       />
                     }
