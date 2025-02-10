@@ -10,10 +10,8 @@ import connectDB from "./db/mongo.js";
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Connect to MongoDB
 connectDB();
 
-// CORS Configuration
 const corsOptions = {
     origin: "https://trainingcrm-public.vercel.app", // Allow frontend origin
     methods: "GET, POST, PUT, DELETE, OPTIONS",

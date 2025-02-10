@@ -49,7 +49,6 @@ const TestPlayer = () => {
     const updatedSelections = [...selectedOptions];
     updatedSelections[currentQuestion] = selectedOption;
     setSelectedOptions(updatedSelections);
-    console.log(selectedOptions)
   };
 
   const handleNext = () => {
@@ -65,20 +64,22 @@ const TestPlayer = () => {
   };
 
   const handleFinish = () => {
-    console.log(selectedOptions);
-    console.log(questions);
-    let correctCount = 0
-    const tes = questions.map(
+    console.log(JSON.stringify(selectedOptions));
+    const correctOptions = questions.map((q) => q.answer);
+    console.log(JSON.stringify(correctOptions));
+    const correctCount = questions.reduce(
       (count, q, idx) =>
-        correctCount += (selectedOptions[idx] === q.answer)
+        count + (selectedOptions[idx] == parseInt(q.answer) ? 1 : 0),
+      0
     );
+
     // const correctCount = questions.reduce(
     //   (count, q, idx) =>
     //     selectedOptions[idx] === q.answer ? count + 1 : count,
     //   0
     // );
     console.log(correctCount);
-    const result = correctCount >= (questions.length/2) ? true : false;
+    const result = correctCount >= (questions.length*0.6) ? true : false;
     console.log(result);
     setVerdict(result);
     setShowResult(true);
