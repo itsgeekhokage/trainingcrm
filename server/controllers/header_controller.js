@@ -71,7 +71,7 @@ export const getVideoConfirmation = async (req, res) => {
     console.log(header_code);
     try {
         const header = await headersModel.findOne({ header_code });
-        header.video_completed = true;
+        header.video_completed = !header.video_completed;
         await header.save();
         res.status(200).json({ data : header, message: "Video confirmation updated!" });
     } catch (error) {
@@ -84,7 +84,7 @@ export const getPdfConfirmation = async (req, res) => {
     const { header_code } = req.params;
     try {
         const header = await headersModel.findOne({ header_code });
-        header.pdf_completed = true;
+        header.pdf_completed = !header.pdf_completed;
         await header.save();
         res.status(200).json({ data : header, message: "PDF confirmation updated!" });
     } catch (error) {
