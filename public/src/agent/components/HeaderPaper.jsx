@@ -1,7 +1,7 @@
 /** @format */
 
 import { Box, Paper, Typography, Link, Switch } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import {
   updateHeaderVideoConfirmation,
@@ -10,6 +10,8 @@ import {
 import { toast } from "react-toastify";
 
 const HeaderPaper = ({ data, loadHeadersData }) => {
+
+  const pdf = "/public/data/sample_pdf.pdf"
 
   const handleVideoChange = async () => {
     toast.info("Updating video completion status...");
@@ -37,7 +39,7 @@ const HeaderPaper = ({ data, loadHeadersData }) => {
         loadHeadersData();
       }
     } catch (error) {
-      toast.error("Failed to update video status");
+      toast.error("Failed to update pdf status");
     }
 
   };

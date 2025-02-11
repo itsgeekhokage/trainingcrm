@@ -19,14 +19,14 @@ const AllTable = ({ data, page }) => {
   };
 
   const handleDelete = async (data) => {
-    const specifier = page === "agents" ? data?.mobile_number : data?.question_code;
+    const specifier = (page === "agents") ? data?.mobile_number : data?.question_code;
     try {
-      const res = await deleteApi(page, data?.specifier);
+      const res = await deleteApi(page, specifier);
       if (res) {
         toast.success("deleted successfully!");
       }
     } catch (error) {
-      toast.error("Failed to update video status");
+      toast.error("Failed to update status");
     }
   };
 
