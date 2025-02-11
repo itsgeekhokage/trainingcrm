@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import projectsModel from "../models/project_modal.js";
 
 export const createAgent = async (req, res) => {
-    
+
     const agents = req.body;
 
     try {
@@ -57,7 +57,6 @@ export const getAllagents = async (req, res) => {
 }
 
 export const getAgent = async (req, res) => {
-    console.log(req.body);
     const { mobile_number, password } = req.body;
     try {
         const agent = await agentModel.findOne({ mobile_number }).select("-_id -__v -createdAt -updatedAt");
@@ -78,6 +77,21 @@ export const getAgent = async (req, res) => {
 
     } catch (error) {
         console.error("Error fetching headers:", error);
+        res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+}
+
+export const deleteAgent = async (req, res) => {
+    const { mobile_number } = req.params;
+    try {
+        const agent = await agentModel.findOne({ mobile_number });
+        if (agent === null) {
+            return res.status(404).json({ message: "Agent not found" });
+        }
+        await agentModel.deleteOne({ mobile_number });
+        res.status(200).json({ message: "Agent deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting agent:", error);
         res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
 }

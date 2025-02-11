@@ -71,3 +71,16 @@ export const getAllQuestions = async (req, res) => {
         res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
 }
+
+
+export const deleteQuestion = async (req, res) => {
+    const { question_code } = req.params;
+    try {
+        const deletedQuestion = await questionsModel.findOneAndDelete({ question_code });
+        res.status(200).json({ message: "Question successfully deleted!", data: deletedQuestion });
+    }
+    catch (error) {
+        console.error("Error deleting question:", error);
+        res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+}
