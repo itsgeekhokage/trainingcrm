@@ -5,7 +5,8 @@ import { useLocation } from "react-router-dom";
 
 const PdfPlayer = () => {
   const location = useLocation();
-  const pdfSrc = location.state?.link;
+  const pdfSrc = location.state?.link ;
+  const directPdfSrc = `/public/data/pdf/${location.state?.link}`;
 
   if (!pdfSrc) {
     return (
@@ -27,7 +28,7 @@ const PdfPlayer = () => {
       }}>
       <h2>PDF Viewer</h2>
       <iframe
-        src={pdfSrc}
+        src={directPdfSrc}
         title="PDF Viewer"
         allowFullScreen
         style={{

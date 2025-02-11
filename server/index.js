@@ -6,9 +6,11 @@ import adminRoute from "./routes/admin_routes.js";
 import questionRoute from "./routes/questions_routes.js";
 import testRoute from "./routes/test_routes.js";
 import connectDB from "./db/mongo.js";
+import dotenv from "dotenv";
 
 const app = express();
 const port = process.env.PORT || 3000;
+dotenv.config();
 
 connectDB();
 

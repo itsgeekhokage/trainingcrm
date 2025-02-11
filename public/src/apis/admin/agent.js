@@ -9,8 +9,6 @@ export const uploadAgentData = async (data, endpoint) => {
         },
         body: JSON.stringify(data),
     });
-    const message = await response.json();
-    console.log("problem", message)
     if (!response.ok) {
         const message = await response.json().message;
         if (message) {

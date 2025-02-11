@@ -1,30 +1,48 @@
 /** @format */
 
 import { Box, Paper, Typography, Link, Switch } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { updateHeaderVideoConfirmation, updatePdfConfirmation } from "../../apis/agent/headerApis";
+import {
+  updateHeaderVideoConfirmation,
+  updatePdfConfirmation,
+} from "../../apis/agent/headerApis";
 import { toast } from "react-toastify";
 
 const HeaderPaper = ({ data, loadHeadersData }) => {
-  console.log(data)
 
-  const handleVideoChange = () => {
-    updateHeaderVideoConfirmation({header_code: data.header_code}).then(res => {
-      console.log(res)
-      loadHeadersData();
-    })
-    toast.info("your credentials are being updated...")
-    toast.info("refresh the page to see the changes...")
-  }
+  const pdf = "/public/data/sample_pdf.pdf"
 
-  const handlePdfChange = () => {
-    updatePdfConfirmation({header_code: data.header_code}).then(res => {
-      loadHeadersData();
-    })
-    toast.info("your credentials are being updated...");
-    toast.info("refresh the page to see the changes...");
-  }
+  const handleVideoChange = async () => {
+    toast.info("Updating video completion status...");
+    try {
+      const res = await updateHeaderVideoConfirmation({
+        header_code: data.header_code,
+      });
+      if (res) {
+        toast.success("Updated successfully!");
+        loadHeadersData();
+      }
+    } catch (error) {
+      toast.error("Failed to update video status");
+    }
+  };
+
+  const handlePdfChange = async () => {
+    toast.info("Updating video completion status...");
+    try {
+      const res = await updatePdfConfirmation({
+        header_code: data.header_code,
+      });
+      if (res) {
+        toast.success("Updated successfully!");
+        loadHeadersData();
+      }
+    } catch (error) {
+      toast.error("Failed to update pdf status");
+    }
+
+  };
 
   return (
     <Paper
@@ -48,74 +66,75 @@ const HeaderPaper = ({ data, loadHeadersData }) => {
       <Box
         display="flex"
         justifyContent="center"
+        alignItems={"center"}
         gap={2}
         mt={2}>
-        <Link
-          component={RouterLink}
-          to="/agent/video-player"
-          state={{ link: data?.video_link }}
-          sx={{
-            textDecoration: "none",
-            color: "warning.main",
-            fontWeight: "bold",
-            borderBlockColor: "warning.main",
-            px: 2,
-            py: 1,
-            borderRadius: 1,
-            transition: "0.3s",
-            "&:hover": {
-              backgroundColor: "warning.dark",
-            },
-          }}>
-          Video
-        </Link>
-        {/* <Switch color="warning" checked={data.video_completed} onChange={() => handleVideoChange()}/> */}
+        {data.video_link != "" ? <Box>
+          <Link
+            component={RouterLink}
+            to="/agent/video-player"
+            state={{ link: data?.video_link }}
+            sx={{
+              textDecoration: "none",
+              color: "warning.main",
+              fontWeight: "bold",
+              "&:hover": {
+                color: "black",
+              },
+            }}>
+            Video
+          </Link>
 
-        <Link
-          component={RouterLink}
-          to="/agent/pdf-player"
-          state={{ link: data?.pdf_link }}
-          sx={{
-            textDecoration: "none",
-            color: "warning.main",
-            fontWeight: "bold",
-            borderBlockColor: "warning.main",
-            px: 2,
-            py: 1,
-            borderRadius: 1,
-            transition: "0.3s",
-            "&:hover": {
-              backgroundColor: "warning.dark",
-            },
-          }}>
-          PDF
-        </Link>
-        {/* <Switch color="warning" checked={data.pdf_completed} onChange={() => handlePdfChange()}/> */}
+          <Switch
+            color="warning"
+            size="small"
+            checked={data.video_completed}
+            onChange={() => handleVideoChange()}
+          />
+        </Box> : ""}
 
+        {data.pdf_link ? <Box>
+          <Link
+            component={RouterLink}
+            to="/agent/pdf-player"
+            state={{ link: data?.pdf_link }}
+            sx={{
+              textDecoration: "none",
+              color: "warning.main",
+              fontWeight: "bold",
+              "&:hover": {
+                color: "black",
+              },
+            }}>
+            PDF
+          </Link>
+          <Switch
+            color="warning"
+            size="small"
+            checked={data.pdf_completed}
+            onChange={() => handlePdfChange()}
+          />
+        </Box> : ""}
         {
-          // (data?.video_completed && data?.pdf_completed)
-          // ?
-          (<Link
-          component={RouterLink}
-          to="/agent/test"
-          state={{ link: data }}
-          sx={{
-            textDecoration: "none",
-            color: "warning.main",
-            fontWeight: "bold",
-            borderBlockColor: "warning.main",
-            px: 2,
-            py: 1,
-            borderRadius: 1,
-            transition: "0.3s",
-            "&:hover": {
-              backgroundColor: "warning.dark",
-            },
-          }}>
-          Test
-        </Link>)
-          // :
-          // <p>complete video and audio first</p>
+          (data?.video_completed && data?.pdf_completed) || (data?.video_link == "" && data?.pdf_link == "") || (data?.video_completed && data?.pdf_link == "") || (data?.video_link == "" && data?.pdf_completed)
+          ?
+          <Link
+            component={RouterLink}
+            to="/agent/test"
+            state={{ link: data }}
+            sx={{
+              textDecoration: "none",
+              color: "warning.main",
+              fontWeight: "bold",
+              transition: "0.3s",
+              "&:hover": {
+                color: "black",
+              },
+            }}>
+            Test
+          </Link>
+          :
+          <p></p>
         }
       </Box>
     </Paper>

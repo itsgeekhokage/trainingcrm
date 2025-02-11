@@ -17,6 +17,7 @@ import PdfPlayer from "./agent/components/PdfPlayer";
 import TestPlayer from "./agent/components/TestPlayer";
 import { Box } from "@mui/material";
 import AdminHome from "./admin/AdminHome";
+import HeadersList from "./agent/components/HeadersList";
 
 function App() {
   return (
@@ -72,7 +73,9 @@ function App() {
             <Route
               path="h"
               element={<Home />}
-            />
+            >
+              <Route path=":project_code/:training_type" element={<HeadersList />} />
+            </Route>
             <Route
               path="video-player"
               element={<VideoPlayer />}

@@ -3,6 +3,7 @@
 import { Box, Typography, Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import HeadersList from "./components/HeadersList";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [activeButtons, setActiveButtons] = useState({
@@ -13,8 +14,14 @@ const Home = () => {
   });
   const [project_code, set_project_code] = useState("");
   const [training_type, set_training_type] = useState("");
+  const navigate = useNavigate();
 
   const [agent, setAgent] = useState({});
+
+  const handleSelection = (type) => {
+    set_training_type(type);
+    navigate(`${project_code}/${type}`);
+  }
 
   useEffect(() => {
     const user = JSON.parse(sessionStorage.getItem("trainingcrm"));
@@ -48,7 +55,7 @@ const Home = () => {
             color={isActive ? "warning" : "grey"}
             onClick={
               isActive
-                ? () => set_training_type(key)
+                ? () => handleSelection(key)
                 : () => set_training_type("na")
             }>
             {key.replace("_", " ").toUpperCase()}
@@ -60,10 +67,7 @@ const Home = () => {
       ) : training_type == "" ? (
         <p> Please select an option to continue...</p>
       ) : (
-        <HeadersList
-          project_code={project_code}
-          training_type={training_type}
-        />
+        <Outlet/>
       )}
     </Box>
   );
