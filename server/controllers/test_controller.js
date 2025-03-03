@@ -4,7 +4,6 @@ import testModel from "../models/test_modal.js";
 
 export const createTest = async (req, res) => {
     const test = req.body;
-    console.log(test)
     try {
         const newTest = new testModel(test);
         await newTest.save();
@@ -24,3 +23,22 @@ export const getTests = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
+
+
+export const getTestByMobileNumberAndHeaderCode = async (req, res) => {
+    const { mobile_number, header_code } = req.params;
+    try {
+        const test = await testModel.findOne(
+            { mobile_number, header_code }
+        ).sort({ createdAt: -1 });
+
+        if (!test) {
+            return res.status(200).json({ result : "pending", message: "No test found" });
+        }
+
+        res.status(200).json({ result : test.result ? "pass" : "fail", message: "Latest test result retrieved" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+

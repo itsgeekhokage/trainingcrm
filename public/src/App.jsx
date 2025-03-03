@@ -18,9 +18,12 @@ import TestPlayer from "./agent/components/TestPlayer";
 import { Box } from "@mui/material";
 import AdminHome from "./admin/AdminHome";
 import HeadersList from "./agent/components/HeadersList";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function App() {
+  const queryClient = new QueryClient();
   return (
+    <QueryClientProvider client={queryClient}>
     <Box
       height={"100vh"}
       width={"100vw"}
@@ -105,6 +108,7 @@ function App() {
         transition={Bounce}
       />
     </Box>
+    </QueryClientProvider>
   );
 }
 

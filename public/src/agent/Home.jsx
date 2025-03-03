@@ -33,6 +33,7 @@ const Home = () => {
       quality: user.training_type_quality,
     });
   }, []);
+  
   return (
     <Box
       flex={1}

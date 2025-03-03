@@ -4,11 +4,12 @@ import { createHeader, getAllHeaders, getPdfConfirmation, getProjectHeaders, get
 
 const router = express.Router();
 
+router.get("/pdf-confirmation/:mobile_number/:header_code", getPdfConfirmation);
+router.get("/video-confirmation/:mobile_number/:header_code", getVideoConfirmation);
 router.get("/inactivate/:header_code", inactivateHeader);
-router.get("/video-confirmation/:header_code", getVideoConfirmation);
-router.get("/pdf-confirmation/:header_code", getPdfConfirmation);
 router.get("/:project_code/:training_type", getProjectHeaders);
 router.get("/", getAllHeaders);
 router.post("/", validateHeaderData, createHeader);
 
 export default router;
+

@@ -7,8 +7,14 @@ const headersSchema = new mongoose.Schema({
     video_link : { type : String, default : "" },
     pdf_link : { type : String, default : "" },
     project_code : {type : String, required : true, match: [/^[a-zA-Z0-9-]+$/, 'Project Code can only contain alphanumeric characters and hyphens']},
-    video_completed : { type : Boolean, default : false },
-    pdf_completed : { type : Boolean, default : false },
+    completion: {
+        type: Map,
+        of: {
+            video_completed: { type: Boolean, required: true, default: false },
+            pdf_completed: { type: Boolean, required: true, default: false }
+        },
+        default: {}
+    },
     active : { type : Boolean, default : true },
 }, { timestamps: true });
 
