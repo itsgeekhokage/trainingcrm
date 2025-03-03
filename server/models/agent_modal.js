@@ -9,6 +9,7 @@ const agentSchema = new mongoose.Schema({
     training_type_online : { type : Boolean, required : true, default : false},
     training_type_ac_pc : { type : Boolean, required : true, default : false},
     training_type_quality : { type : Boolean, required : true, default : false},
+    
 }, { timestamps: true });
 
 

@@ -9,6 +9,10 @@ const testSchema = new mongoose.Schema({
     result : { type : Boolean, default : false},
     // total_time_taken : { type : Number, "default" : 0 },
     submission_time : { type : Date, "default" : Date.now },
+    latitude : { type : Number, required : true },
+    longitude : { type : Number, required : true },
+    selected_options : { type : String, required : true },
+    correct_options : { type : String, required : true },
 }, { timestamps: true });
 
 const testModel = mongoose.model("tests", testSchema);

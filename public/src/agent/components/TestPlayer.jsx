@@ -10,9 +10,11 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getDataByCodes } from "../../apis/agent/getApis";
 import { testPostApi } from "../../apis/agent/testApi";
+import { toast } from "react-toastify";
+import { QueryClient, useMutation } from "@tanstack/react-query";
 
 const TestPlayer = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -23,8 +25,12 @@ const TestPlayer = () => {
   const location = useLocation();
   const [noData, setNoData] = useState(false);
   const [user, setUser] = useState(null);
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+  const [wrongQuestions, setWrongQuestions] = useState([]);
   const { project_code, header_code, training_type } =
     location?.state?.link || {};
+  const navigate = useNavigate();
 
   useEffect(() => {
     let data = { project_code, header_code, training_type };
@@ -45,10 +51,31 @@ const TestPlayer = () => {
     }
   }, [location.state]);
 
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLatitude(position.coords.latitude);
+          setLongitude(position.coords.longitude);
+        },
+        (error) => {
+          toast.error("Access to location is denied");
+          console.error("Geolocation error:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation not supported");
+    }
+  }, []);
+
   const handleAnswer = (selectedOption) => {
     const updatedSelections = [...selectedOptions];
     updatedSelections[currentQuestion] = selectedOption;
     setSelectedOptions(updatedSelections);
+
+    setTimeout(() => {
+      handleNext();
+    }, 500);
   };
 
   const handleNext = () => {
@@ -63,15 +90,21 @@ const TestPlayer = () => {
     }
   };
 
-  const handleFinish = () => {
+
+  const handleFinish = async () => {
     console.log(JSON.stringify(selectedOptions));
-    const correctOptions = questions.map((q) => q.answer);
+    const correctOptions = questions.map((q) => parseInt(q.answer));
     console.log(JSON.stringify(correctOptions));
     const correctCount = questions.reduce(
       (count, q, idx) =>
         count + (selectedOptions[idx] == parseInt(q.answer) ? 1 : 0),
       0
     );
+    const wrongQuestions = questions.filter(
+      (q, idx) => selectedOptions[idx] != parseInt(q.answer)
+    );
+    console.log(wrongQuestions);
+    setWrongQuestions(wrongQuestions);
 
     // const correctCount = questions.reduce(
     //   (count, q, idx) =>
@@ -79,7 +112,7 @@ const TestPlayer = () => {
     //   0
     // );
     console.log(correctCount);
-    const result = correctCount >= (questions.length*0.6) ? true : false;
+    const result = correctCount >= questions.length * 0.6 ? true : false;
     console.log(result);
     setVerdict(result);
     setShowResult(true);
@@ -90,10 +123,18 @@ const TestPlayer = () => {
       header_code,
       training_type,
       result,
+      latitude,
+      longitude,
+      selected_options: JSON.stringify(selectedOptions),
+      correct_options: JSON.stringify(correctOptions),
     };
-    testPostApi("tests", data).then((res) => {
-      console.log(res);
-    });
+    try {
+      await testPostApi("tests", data);
+      console.log("Update successful!");
+    } catch (err) {
+      toast.error("test couldnot be saved");
+      console.log(err)
+    }
   };
 
   return (
@@ -141,13 +182,8 @@ const TestPlayer = () => {
                     key={index}
                     control={
                       <Radio
-                        checked={
-                          selectedOptions[currentQuestion] ===
-                          index
-                        }
-                        onChange={() =>
-                          handleAnswer(index)
-                        }
+                        checked={selectedOptions[currentQuestion] === index}
+                        onChange={() => handleAnswer(index)}
                       />
                     }
                     label={
@@ -195,6 +231,16 @@ const TestPlayer = () => {
             Test Results
           </Typography>
           <Typography>Result: {verdict ? "Passes" : "Failed"}</Typography>
+          <Box
+            mt={2}
+            height={"60vh"}
+            overflow={"auto"}>
+            <Typography fontWeight="bold">Wrong Questions:</Typography>
+            {wrongQuestions.map((q, idx) => (
+              <Typography key={idx}>{q.question_text}</Typography>
+            ))}
+            <Button onClick={() => navigate("/agent/h")}>Home</Button>
+          </Box>
         </Paper>
       )}
     </Box>

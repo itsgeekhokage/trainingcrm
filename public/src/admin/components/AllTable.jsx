@@ -9,12 +9,15 @@ import { inactivateHeader } from "../../apis/agent/headerApis";
 import { toast } from "react-toastify";
 import { deleteApi } from "../../apis/admin/deleteapi";
 
-const AllTable = ({ data, page }) => {
+const AllTable = ({ data, page, fetchData }) => {
   if (!data || data.length === 0) return <p>No data available</p>;
 
   const handleInActivate = (header_code) => {
     inactivateHeader({ header_code }).then((res) => {
-      console.log(res);
+      if (res) {
+        toast.success("Status updated successfully");
+        fetchData();
+      }
     });
   };
 
@@ -24,6 +27,7 @@ const AllTable = ({ data, page }) => {
       const res = await deleteApi(page, specifier);
       if (res) {
         toast.success("deleted successfully!");
+        fetchData();
       }
     } catch (error) {
       toast.error("Failed to update status");
@@ -90,6 +94,12 @@ const DataTable = () => {
   const [page, setPage] = useState("");
   const location = useLocation();
 
+  const fetchData = async (endpoint) => {
+    getApi(endpoint).then((data) => {
+      setData(data.data);
+    });
+  };
+
   useEffect(() => {
     var pth = location.pathname?.split("/");
     let endpoint = "";
@@ -107,20 +117,15 @@ const DataTable = () => {
       }
     }
 
-    const fetchData = async () => {
-      getApi(endpoint).then((data) => {
-        // console.log(data.data)
-        setData(data.data);
-      });
-    };
 
-    fetchData();
+    fetchData(endpoint);
   }, []);
 
   return (
     <AllTable
       data={data}
       page={page}
+      fetchData={fetchData}
     />
   );
 };

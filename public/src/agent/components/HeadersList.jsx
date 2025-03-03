@@ -1,47 +1,68 @@
-import { useCallback, useEffect, useState } from "react";
+/** @format */
+import { useEffect, useState } from "react";
+import HeaderPaper from "./HeaderPaper";
+import { Box, CircularProgress, Typography } from "@mui/material";
+import { getData } from "../../apis/agent/getApis";
+import { useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
-import HeaderPaper from './HeaderPaper';
-import { Box } from '@mui/material';
-import { getData, getDataByCodes } from '../../apis/agent/getApis';
-import { useLocation, useParams } from "react-router-dom";
-
-
-const HeadersList = ({}) => {
+const HeadersList = () => {
   const params = useParams();
-  const project_code = params?.project_code;
-  const training_type = params?.training_type;
-  let [list, setList] = useState([]);
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
 
-  const loadHeadersData = useCallback(() => {
-    console.log("loading headers data");
-    getData({ endpoint: `headers/${project_code}/${training_type}` }).then(
-      (res) => {
-        setList(res.data);
-      }
-    );
-  }, []);
+  const fetchHeadersData = async () => {
+    if (!params?.project_code || !params?.training_type) return [];
+    const response = await getData({
+      endpoint: `headers/${params.project_code}/${params.training_type}`,
+    });
+    return response.data;
+  };
 
+  const {
+    data: list = [],
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["headersData", params?.project_code, params?.training_type],
+    queryFn: fetchHeadersData,
+    enabled: !!params?.project_code && !!params?.training_type,
+  });
 
   useEffect(() => {
-    console.log(project_code, training_type);
-    if (project_code && training_type) {
-      loadHeadersData(project_code, training_type);
+    const storedUser = JSON.parse(sessionStorage.getItem("trainingcrm"));
+    if (!storedUser) {
+      console.log("No user found");
+      navigate("/");
+    } else {
+      setUser(storedUser);
     }
-  }, [project_code, training_type]);
-
-  useEffect(() => {
-    console.log("dsf")
-  }
-  , []);
-
+  }, [navigate]);
 
   return (
-    <Box padding={3} display={"flex"} flexDirection={"column"} alignItems={"center"} gap={2} height={"50vh"} overflow={"auto"}>
-        {
-            list.map(item => <HeaderPaper data = {item} loadHeadersData = {loadHeadersData} />)
-        }
-    </Box>
-  )
-}
+    <Box
+      padding={3}
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      gap={2}
+      height="50vh"
+      overflow="auto">
+      {isLoading && <CircularProgress />}
 
-export default HeadersList
+      {error && (
+        <Typography color="error">Error loading headers data</Typography>
+      )}
+
+      {list.map((item) => (
+        <HeaderPaper
+          key={item.id}
+          user={user}
+          data={item}
+        />
+      ))}
+    </Box>
+  );
+};
+
+export default HeadersList;

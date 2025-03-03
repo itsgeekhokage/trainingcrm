@@ -58,7 +58,7 @@ export const getAllHeaders = async (req, res) => {
 export const getProjectHeaders = async (req, res) => {
     const { project_code, training_type } = req.params;
     try {
-        const headers = await headersModel.find({ project_code, training_type }).select("-_id -__v -createdAt -updatedAt");
+        const headers = await headersModel.find({ project_code, training_type }).select("-_id -__v -createdAt -updatedAt").sort({ updatedAt : -1 });
         res.status(200).json({ data: headers});
     } catch (error) {
         console.error("Error fetching headers:", error);
@@ -66,35 +66,10 @@ export const getProjectHeaders = async (req, res) => {
     }
 }
 
-export const getVideoConfirmation = async (req, res) => {
-    const { header_code } = req.params;
-    console.log(header_code);
-    try {
-        const header = await headersModel.findOne({ header_code });
-        header.video_completed = !header.video_completed;
-        await header.save();
-        res.status(200).json({ data : header, message: "Video confirmation updated!" });
-    } catch (error) {
-        console.error("Error updating video confirmation:", error);
-        res.status(500).json({ message: "Internal Server Error", error: error.message });
-    }
-}
-
-export const getPdfConfirmation = async (req, res) => {
-    const { header_code } = req.params;
-    try {
-        const header = await headersModel.findOne({ header_code });
-        header.pdf_completed = !header.pdf_completed;
-        await header.save();
-        res.status(200).json({ data : header, message: "PDF confirmation updated!" });
-    } catch (error) {
-        console.error("Error updating pdf confirmation:", error);
-        res.status(500).json({ message: "Internal Server Error", error: error.message });
-    }
-}
 
 export const inactivateHeader = async (req, res) => {
     const { header_code } = req.params;
+    console.log(header_code);
     try {
         const header = await headersModel.findOne({ header_code });
         header.active = !header.active;
@@ -102,6 +77,67 @@ export const inactivateHeader = async (req, res) => {
         res.status(200).json({ data : header, message: "Header inactivated!" });
     } catch (error) {
         console.error("Error inactivating header:", error);
+        res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+}
+
+export const getVideoConfirmation = async (req, res) => {
+    const { header_code, mobile_number } = req.params;
+    try {
+        const header = await headersModel.findOne({ header_code });
+        if (!header) {
+            return res.status(404).json({ message: "Header not found" });
+        }
+
+        if (!header.completion) {
+            header.completion = new Map();
+        }
+
+        const key = String(mobile_number);
+
+        const existingEntry = header.completion.get(key) || { video_completed: false, pdf_completed: false };
+        header.completion.set(key, {
+            video_completed: !existingEntry.video_completed,
+            pdf_completed: existingEntry.pdf_completed
+        });
+
+
+        header.markModified("completion");
+        await header.save();
+
+        res.status(200).json({
+            data: header,
+            message: "Video confirmation updated!"
+        });
+    } catch (error) {
+        console.error("Error updating video confirmation:", error);
+        res.status(500).json({ message: "Internal Server Error", error: error.message });
+    }
+};
+
+
+
+export const getPdfConfirmation = async (req, res) => {
+    const { header_code, mobile_number } = req.params;
+    try {
+        const header = await headersModel.findOne({ header_code });
+        if (!header) {
+            return res.status(404).json({ message: "Header not found" });
+        }
+        if(!header.completion) {
+            header.completion = new Map();
+        }
+        const key = String(mobile_number);
+        const existingEntry = header.completion.get(key) || { video_completed: false, pdf_completed: false };
+        header.completion.set(key, {
+            video_completed: existingEntry.video_completed,
+            pdf_completed: !existingEntry.pdf_completed
+        });
+        header.markModified("completion");
+        await header.save();
+        res.status(200).json({ data: header, message: "Pdf confirmation updated!" });
+    } catch (error) {
+        console.error("Error updating pdf confirmation:", error);
         res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
 }

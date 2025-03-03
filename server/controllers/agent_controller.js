@@ -65,9 +65,8 @@ export const getAgent = async (req, res) => {
             return res.status(404).json({ message: "Agent not found" });
         }
 
-        console.log(password, agent.password, agent);
-
         const match = await bcrypt.compare(password, agent.password);
+        console.log("match", match, agent.password, password);
         if (match) {
             agent.password = undefined;
             res.status(200).json({data : agent, message: "Agent verified" });
@@ -95,3 +94,4 @@ export const deleteAgent = async (req, res) => {
         res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
 }
+

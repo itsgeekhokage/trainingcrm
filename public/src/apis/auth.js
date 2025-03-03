@@ -10,10 +10,12 @@ export const authApi = async (endpoint, data) => {
         },
         body: JSON.stringify(data),
     });
+    console.log("message")
     if (!response.ok) {
-        const message = await response.json().message;
-        if (message) {
-            toast.error(message);
+        console.log("message")
+        const resp = await response.json();
+        if (resp?.message) {
+            toast?.error(resp.message);
         } else {
             toast.error("Server Error");
         }
