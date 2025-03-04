@@ -13,6 +13,7 @@ const testSchema = new mongoose.Schema({
     longitude : { type : Number, required : true },
     selected_options : { type : String, required : true },
     correct_options : { type : String, required : true },
+    percentage : { type : Number, required : true }
 }, { timestamps: true });
 
 const testModel = mongoose.model("tests", testSchema);

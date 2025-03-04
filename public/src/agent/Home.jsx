@@ -16,7 +16,7 @@ const Home = () => {
   const [training_type, set_training_type] = useState("");
   const navigate = useNavigate();
 
-  const [agent, setAgent] = useState({});
+  const [agent, setAgent] = useState("");
 
   const handleSelection = (type) => {
     set_training_type(type);
@@ -32,8 +32,9 @@ const Home = () => {
       ac_pc: user.training_type_ac_pc,
       quality: user.training_type_quality,
     });
+    setAgent(user.user_name);
   }, []);
-  
+
   return (
     <Box
       flex={1}
@@ -44,10 +45,18 @@ const Home = () => {
       <Typography
         variant="h5"
         gutterBottom>
+        Welcome, {agent}
+      </Typography>
+      <Typography
+        variant="h5"
+        gutterBottom
+        color="warning">
         Project :- {project_code}
       </Typography>
       <Box
-        display="flex" flexWrap={"wrap"} margin={2}
+        display="flex"
+        flexWrap={"wrap"}
+        margin={2}
         gap={2}>
         {Object.entries(activeButtons).map(([key, isActive]) => (
           <Button
@@ -64,11 +73,11 @@ const Home = () => {
         ))}
       </Box>
       {training_type == "na" ? (
-        <p >Access denied!!</p>
+        <p>Access denied!!</p>
       ) : training_type == "" ? (
         <p> Please select an option to continue...</p>
       ) : (
-        <Outlet/>
+        <Outlet />
       )}
     </Box>
   );
