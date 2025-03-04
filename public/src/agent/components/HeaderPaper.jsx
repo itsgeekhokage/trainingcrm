@@ -12,7 +12,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getTestByMobileNumberAndHeaderCode } from "../../apis/agent/testApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-
 const HeaderPaper = ({ user, data, loadHeadersData }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -21,7 +20,7 @@ const HeaderPaper = ({ user, data, loadHeadersData }) => {
     error,
     data: testResult,
   } = useQuery({
-    queryKey: ["testData", user.mobile_number, data.header_code],
+    queryKey: ["testData", user?.mobile_number, data?.header_code],
     queryFn: () =>
       getTestByMobileNumberAndHeaderCode(
         "tests",
@@ -174,7 +173,22 @@ const HeaderPaper = ({ user, data, loadHeadersData }) => {
                 color: "black",
               },
             }}>
-            Test
+            Test (
+            <Typography
+              variant="p"
+              fontWeight="bold"
+              gutterBottom
+              sx={{
+                color:
+                  testResult === "pass"
+                    ? "rgba(5, 150, 10, 1)"
+                    : testResult === "fail"
+                    ? "rgba(200, 50, 50, 1)"
+                    : "rgba(48, 46, 46, 0.7)",
+              }}>
+               {testResult} 
+            </Typography>
+            )
           </Link>
         ) : (
           <p></p>

@@ -14,7 +14,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getDataByCodes } from "../../apis/agent/getApis";
 import { testPostApi } from "../../apis/agent/testApi";
 import { toast } from "react-toastify";
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import LocationAsk from "./LocationAsk";
 
 const TestPlayer = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -27,7 +27,9 @@ const TestPlayer = () => {
   const [user, setUser] = useState(null);
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
+  const [locationError, setLocationError] = useState(false);
   const [wrongQuestions, setWrongQuestions] = useState([]);
+  const [locationAccess, setLocationAccess] = useState(false);
   const { project_code, header_code, training_type } =
     location?.state?.link || {};
   const navigate = useNavigate();
@@ -36,7 +38,6 @@ const TestPlayer = () => {
     let data = { project_code, header_code, training_type };
     getDataByCodes({ endpoint: "questions/get", data }).then((res) => {
       let ques = res.data;
-      console.log(ques);
       if (ques.length === 0) {
         setNoData(true);
       } else {
@@ -44,9 +45,10 @@ const TestPlayer = () => {
         setSelectedOptions(new Array(ques.length).fill(null));
       }
     });
-    const user = JSON.parse(sessionStorage.getItem("trainingcrm"));
-    setUser(user);
-    if (!user) {
+
+    const storedUser = JSON.parse(sessionStorage.getItem("trainingcrm"));
+    setUser(storedUser);
+    if (!storedUser) {
       window.location.href = "/";
     }
   }, [location.state]);
@@ -57,14 +59,18 @@ const TestPlayer = () => {
         (position) => {
           setLatitude(position.coords.latitude);
           setLongitude(position.coords.longitude);
+          setLocationError(false);
+          setLocationAccess(true);
         },
         (error) => {
           toast.error("Access to location is denied");
+          setLocationError(true);
           console.error("Geolocation error:", error);
         }
       );
     } else {
       console.error("Geolocation not supported");
+      setLocationError(true);
     }
   }, []);
 
@@ -90,11 +96,8 @@ const TestPlayer = () => {
     }
   };
 
-
   const handleFinish = async () => {
-    console.log(JSON.stringify(selectedOptions));
     const correctOptions = questions.map((q) => parseInt(q.answer));
-    console.log(JSON.stringify(correctOptions));
     const correctCount = questions.reduce(
       (count, q, idx) =>
         count + (selectedOptions[idx] == parseInt(q.answer) ? 1 : 0),
@@ -103,18 +106,9 @@ const TestPlayer = () => {
     const wrongQuestions = questions.filter(
       (q, idx) => selectedOptions[idx] != parseInt(q.answer)
     );
-    console.log(wrongQuestions);
     setWrongQuestions(wrongQuestions);
-
-    // const correctCount = questions.reduce(
-    //   (count, q, idx) =>
-    //     selectedOptions[idx] === q.answer ? count + 1 : count,
-    //   0
-    // );
-    console.log(correctCount);
-    const result = correctCount >= questions.length * 0.6 ? true : false;
-    console.log(result);
-    setVerdict(result);
+    const percentage = (correctCount / questions.length) * 100;
+    setVerdict(correctCount >= questions.length * 0.6);
     setShowResult(true);
 
     const data = {
@@ -122,20 +116,25 @@ const TestPlayer = () => {
       project_code,
       header_code,
       training_type,
-      result,
+      result: correctCount >= questions.length * 0.6,
       latitude,
       longitude,
       selected_options: JSON.stringify(selectedOptions),
       correct_options: JSON.stringify(correctOptions),
+      percentage,
     };
+
     try {
       await testPostApi("tests", data);
-      console.log("Update successful!");
     } catch (err) {
-      toast.error("test couldnot be saved");
-      console.log(err)
+      toast.error("Test could not be saved");
+      console.error(err);
     }
   };
+
+  if (!locationAccess) {
+    return <LocationAsk />;
+  }
 
   return (
     <Box
@@ -230,7 +229,7 @@ const TestPlayer = () => {
             fontWeight="bold">
             Test Results
           </Typography>
-          <Typography>Result: {verdict ? "Passes" : "Failed"}</Typography>
+          <Typography>Result: {verdict ? "Passed" : "Failed"}</Typography>
           <Box
             mt={2}
             height={"60vh"}
